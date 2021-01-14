@@ -7,6 +7,7 @@ defmodule Waldon.Properties do
   alias Waldon.Repo
 
   alias Waldon.Properties.Property
+  alias Waldon.Properties.Unit
 
   @doc """
   Returns the list of properties.
@@ -35,7 +36,18 @@ defmodule Waldon.Properties do
       ** (Ecto.NoResultsError)
 
   """
-  def get_property!(id), do: Repo.get!(Property, id)
+  def get_property!(id) do
+    units_query = from u in Unit, order_by: u.name
+
+    [property] =
+      Repo.all(
+        from p in Property,
+          where: p.id == ^id,
+          preload: [units: ^units_query]
+      )
+
+    property
+  end
 
   @doc """
   Creates a property.
@@ -52,6 +64,13 @@ defmodule Waldon.Properties do
   def create_property(attrs \\ %{}) do
     %Property{}
     |> Property.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def create_unit(%Property{} = property, attrs \\ %{}) do
+    %Unit{}
+    |> Unit.changeset(attrs)
+    |> Ecto.Changeset.put_assoc(:property, property)
     |> Repo.insert()
   end
 
@@ -100,5 +119,9 @@ defmodule Waldon.Properties do
   """
   def change_property(%Property{} = property, attrs \\ %{}) do
     Property.changeset(property, attrs)
+  end
+
+  def change_unit(%Unit{} = unit, attrs \\ %{}) do
+    Unit.changeset(unit, attrs)
   end
 end

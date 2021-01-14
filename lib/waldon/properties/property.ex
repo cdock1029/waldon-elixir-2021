@@ -6,6 +6,8 @@ defmodule Waldon.Properties.Property do
     field :address, :string
     field :name, :string
 
+    has_many :units, Waldon.Properties.Unit
+
     timestamps()
   end
 

@@ -1,4 +1,4 @@
-defmodule WaldonWeb.PropertyLive.FormComponent do
+defmodule WaldonWeb.PropertyLive.UnitFormComponent do
   use WaldonWeb, :live_component
 
   alias Waldon.Properties
@@ -9,7 +9,7 @@ defmodule WaldonWeb.PropertyLive.FormComponent do
     <h2><%= @title %></h2>
 
     <%= f = form_for @changeset, "#",
-    id: "property-form",
+    id: "unit-form",
     phx_target: @myself,
     phx_change: "validate",
     phx_submit: "save" %>
@@ -18,18 +18,14 @@ defmodule WaldonWeb.PropertyLive.FormComponent do
     <%= text_input f, :name %>
     <%= error_tag f, :name %>
 
-    <%= label f, :address %>
-    <%= textarea f, :address %>
-    <%= error_tag f, :address %>
-
     <%= submit "Save", phx_disable_with: "Saving..." %>
     </form>
     """
   end
 
   @impl true
-  def update(%{property: property} = assigns, socket) do
-    changeset = Properties.change_property(property)
+  def update(%{unit: unit} = assigns, socket) do
+    changeset = Properties.change_unit(unit)
 
     {:ok,
      socket
@@ -38,17 +34,17 @@ defmodule WaldonWeb.PropertyLive.FormComponent do
   end
 
   @impl true
-  def handle_event("validate", %{"property" => property_params}, socket) do
+  def handle_event("validate", %{"unit" => unit_params}, socket) do
     changeset =
-      socket.assigns.property
-      |> Properties.change_property(property_params)
+      socket.assigns.unit
+      |> Properties.change_unit(unit_params)
       |> Map.put(:action, :validate)
 
     {:noreply, assign(socket, :changeset, changeset)}
   end
 
-  def handle_event("save", %{"property" => property_params}, socket) do
-    save_property(socket, socket.assigns.action, property_params)
+  def handle_event("save", %{"unit" => unit_params}, socket) do
+    save_property(socket, socket.assigns.action, unit_params)
   end
 
   defp save_property(socket, :edit, property_params) do
@@ -64,12 +60,12 @@ defmodule WaldonWeb.PropertyLive.FormComponent do
     end
   end
 
-  defp save_property(socket, :new, property_params) do
-    case Properties.create_property(property_params) do
+  defp save_property(socket, :new, unit_params) do
+    case Properties.create_unit(socket.assigns.property, unit_params) do
       {:ok, _property} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Property created successfully")
+         |> put_flash(:info, "Unit created successfully")
          |> push_redirect(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
