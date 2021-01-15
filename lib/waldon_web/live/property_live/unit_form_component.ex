@@ -44,10 +44,10 @@ defmodule WaldonWeb.PropertyLive.UnitFormComponent do
   end
 
   def handle_event("save", %{"unit" => unit_params}, socket) do
-    save_property(socket, socket.assigns.action, unit_params)
+    save_unit(socket, socket.assigns.action, unit_params)
   end
 
-  defp save_property(socket, :edit, property_params) do
+  defp save_unit(socket, :edit, property_params) do
     case Properties.update_property(socket.assigns.property, property_params) do
       {:ok, _property} ->
         {:noreply,
@@ -60,7 +60,7 @@ defmodule WaldonWeb.PropertyLive.UnitFormComponent do
     end
   end
 
-  defp save_property(socket, :new, unit_params) do
+  defp save_unit(socket, :new, unit_params) do
     case Properties.create_unit(socket.assigns.property, unit_params) do
       {:ok, _property} ->
         {:noreply,

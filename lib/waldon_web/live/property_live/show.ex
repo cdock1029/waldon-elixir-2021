@@ -3,8 +3,6 @@ defmodule WaldonWeb.PropertyLive.Show do
 
   alias Waldon.Properties
   alias Waldon.Properties.Unit
-  alias Waldon.Properties.Property
-  alias Waldon.Repo
 
   @impl true
   def mount(_params, _session, socket) do
@@ -78,7 +76,7 @@ defmodule WaldonWeb.PropertyLive.Show do
       <tr id="unit-<%= unit.id %>">
         <td><%= unit.name %></td>
         <td>
-          <span><%= # live_redirect "Show", to: Routes.property_show_path(@socket, :show, property) %></span>
+          <span><%= live_redirect "Show", to: Routes.property_unit_show_path(@socket, :show, @property, unit) %></span>
           <span><%= # live_patch "Edit", to: Routes.property_index_path(@socket, :edit, property) %></span>
           <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: unit.id, data: [confirm: "Are you sure?"] %></span>
         </td>
@@ -87,20 +85,9 @@ defmodule WaldonWeb.PropertyLive.Show do
     </tbody>
     </table>
 
-    <!-- <h3>Units</h3>
-    <ul>
-      <%= for unit <- @property.units do %>
-      <li><%= unit.name %></li>
-      <% end %>
-    </ul> -->
-
     <span><%= live_patch "New Unit", to: Routes.property_show_path(@socket, :new, @property) %></span>
     """
   end
-
-  # defp page_title(:show), do: "Show Property"
-  # defp page_title(:edit), do: "Edit Property"
-  # defp page_title(:new), do: "New Unit for Property"
 
   defp apply_action(socket, :new) do
     socket
@@ -120,9 +107,8 @@ defmodule WaldonWeb.PropertyLive.Show do
 
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
-    property = socket.assigns.property
     unit = Properties.get_unit!(id)
     {:ok, _} = Properties.delete_unit(unit)
-    {:noreply, assign(socket, :property, Properties.get_property!(property.id))}
+    {:noreply, assign(socket, :property, Properties.get_property!(socket.assigns.property.id))}
   end
 end
