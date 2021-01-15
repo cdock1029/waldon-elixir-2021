@@ -16,6 +16,6 @@ defmodule Waldon.Properties.Unit do
     |> cast(attrs, [:name])
     |> update_change(:name, &String.trim/1)
     |> validate_required([:name])
-    |> unique_constraint([:name, :property_id])
+    |> unique_constraint(:name, name: :units_property_id_name_index)
   end
 end

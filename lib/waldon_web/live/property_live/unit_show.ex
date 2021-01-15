@@ -2,7 +2,6 @@ defmodule WaldonWeb.PropertyLive.UnitShow do
   use WaldonWeb, :live_view
 
   alias Waldon.Properties
-  alias Waldon.Properties.Unit
   alias Waldon.Properties.Property
 
   @impl true
@@ -64,20 +63,14 @@ defmodule WaldonWeb.PropertyLive.UnitShow do
     """
   end
 
-  defp apply_action(socket, :new) do
-    socket
-    |> assign(:page_title, "New Unit for Property")
-    |> assign(:unit, %Unit{})
-  end
-
   defp apply_action(socket, :show) do
     socket
-    |> assign(:page_title, "Show Property")
+    |> assign(:page_title, "Show Unit")
   end
 
   defp apply_action(socket, :edit) do
     socket
-    |> assign(:page_title, "Edit Property")
+    |> assign(:page_title, "Edit Unit")
   end
 
   # @impl true
