@@ -1,0 +1,41 @@
+<h1>Show Tenant</h1>
+<%= if @live_action in [:edit] do %>
+  <%= live_modal @socket, WaldonWeb.TenantLive.FormComponent,
+    id: @tenant.id,
+    title: @page_title,
+    action: @live_action,
+    tenant: @tenant,
+    return_to: Routes.tenant_show_path(@socket, :show, @tenant) %>
+<% end %>
+<ul>
+  <li>
+    <strong>Full name:</strong>
+    <%= @tenant.full_name %>
+  </li>
+  <li>
+    <strong>First name:</strong>
+    <%= @tenant.first_name %>
+  </li>
+  <li>
+    <strong>Middle name:</strong>
+    <%= @tenant.middle_name %>
+  </li>
+  <li>
+    <strong>Last name:</strong>
+    <%= @tenant.last_name %>
+  </li>
+  <li>
+    <strong>Suffix:</strong>
+    <%= @tenant.suffix %>
+  </li>
+  <li>
+    <strong>Balance:</strong>
+    <%= @tenant.balance %>
+  </li>
+  <li>
+    <strong>Email:</strong>
+    <%= @tenant.email %>
+  </li>
+</ul>
+<span><%= live_patch "Edit", to: Routes.tenant_show_path(@socket, :edit, @tenant), class: "button" %></span>
+<span><%= live_redirect "Back", to: Routes.tenant_index_path(@socket, :index) %></span>

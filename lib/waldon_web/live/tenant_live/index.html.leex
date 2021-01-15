@@ -1,0 +1,40 @@
+<h1>Listing Tenants</h1>
+<%= if @live_action in [:new, :edit] do %>
+  <%= live_modal @socket, WaldonWeb.TenantLive.FormComponent,
+    id: @tenant.id || :new,
+    title: @page_title,
+    action: @live_action,
+    tenant: @tenant,
+    return_to: Routes.tenant_index_path(@socket, :index) %>
+<% end %>
+<table>
+  <thead>
+    <tr>
+      <th>First name</th>
+      <th>Middle name</th>
+      <th>Last name</th>
+      <th>Suffix</th>
+      <th align="right">Balance</th>
+      <th>Email</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="tenants">
+    <%= for tenant <- @tenants do %>
+      <tr id="tenant-<%= tenant.id %>">
+        <td><%= tenant.first_name %></td>
+        <td><%= tenant.middle_name %></td>
+        <td><%= tenant.last_name %></td>
+        <td><%= tenant.suffix %></td>
+        <td><%= tenant.balance %></td>
+        <td><%= tenant.email %></td>
+        <td>
+          <span><%= live_redirect "Show", to: Routes.tenant_show_path(@socket, :show, tenant) %></span>
+          <span><%= live_patch "Edit", to: Routes.tenant_index_path(@socket, :edit, tenant) %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: tenant.id, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<span><%= live_patch "New Tenant", to: Routes.tenant_index_path(@socket, :new) %></span>

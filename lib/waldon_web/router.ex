@@ -28,6 +28,15 @@ defmodule WaldonWeb.Router do
     live "/properties/:id/units/new", PropertyLive.Show, :new
 
     live "/properties/:id/units/:uid", PropertyLive.UnitShow, :show
+
+    live "/tenants", TenantLive.Index, :index
+    live "/tenants/new", TenantLive.Index, :new
+    live "/tenants/:id/edit", TenantLive.Index, :edit
+
+    live "/tenants/:id", TenantLive.Show, :show
+    live "/tenants/:id/show/edit", TenantLive.Show, :edit
+
+    live "/demo", DemoLive
   end
 
   # Other scopes may use custom stacks.
