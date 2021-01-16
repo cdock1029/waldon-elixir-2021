@@ -7,6 +7,7 @@ defmodule Waldon.Tenants do
   alias Waldon.Repo
 
   alias Waldon.Tenants.Tenant
+  alias Waldon.Leases.Lease
 
   @doc """
   Returns the list of tenants.
@@ -35,7 +36,18 @@ defmodule Waldon.Tenants do
       ** (Ecto.NoResultsError)
 
   """
-  def get_tenant!(id), do: Repo.get!(Tenant, id)
+  def get_tenant!(id) do
+    [tenant] =
+      Repo.all(
+        from t in Tenant,
+          left_join: l in assoc(t, :leases),
+          where: t.id == ^id,
+          order_by: [desc: l.start_time],
+          preload: [leases: l]
+      )
+
+    tenant
+  end
 
   @doc """
   Creates a tenant.

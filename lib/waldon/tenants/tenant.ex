@@ -11,9 +11,15 @@ defmodule Waldon.Tenants.Tenant do
     field :suffix, :string
     field :full_name, :string
 
+    many_to_many :leases, Waldon.Leases.Lease, join_through: "tenant_leases"
+
     timestamps()
   end
 
+  @spec changeset(
+          {map, map} | %{:__struct__ => atom | %{__changeset__: map}, optional(atom) => any},
+          :invalid | %{optional(:__struct__) => none, optional(atom | binary) => any}
+        ) :: Ecto.Changeset.t()
   @doc false
   def changeset(tenant, attrs) do
     tenant

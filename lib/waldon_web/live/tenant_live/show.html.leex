@@ -1,4 +1,4 @@
-<h1>Show Tenant</h1>
+<h1 class="mt-4 mb-8 text-3xl">Show Tenant</h1>
 <%= if @live_action in [:edit] do %>
   <%= live_modal @socket, WaldonWeb.TenantLive.FormComponent,
     id: @tenant.id,
@@ -7,7 +7,7 @@
     tenant: @tenant,
     return_to: Routes.tenant_show_path(@socket, :show, @tenant) %>
 <% end %>
-<ul>
+<ul class="mb-4">
   <li>
     <strong>Full name:</strong>
     <%= @tenant.full_name %>
@@ -37,5 +37,11 @@
     <%= @tenant.email %>
   </li>
 </ul>
-<span><%= live_patch "Edit", to: Routes.tenant_show_path(@socket, :edit, @tenant), class: "btn" %></span>
+<span><%= live_patch "Edit", to: Routes.tenant_show_path(@socket, :edit, @tenant), class: "btn mr-4" %></span>
 <span><%= live_redirect "Back", to: Routes.tenant_index_path(@socket, :index) %></span>
+<hr class="my-4"/>
+<h3 class="mt-2 mb-4 text-xl">Tenant leases</h3>
+<ul>
+  <%= for lease <- @tenant.leases do %>
+  <% end %>
+</ul>

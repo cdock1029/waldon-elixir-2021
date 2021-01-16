@@ -10,13 +10,20 @@ defmodule Waldon.Properties do
   end
 
   def get_property!(id) do
-    units_query = from u in Unit, order_by: u.name
-
+    # units_query = from u in Unit, order_by: u.name
+    # [property] =
+    #   Repo.all(
+    #     from p in Property,
+    #       where: p.id == ^id,
+    #       preload: [units: ^units_query]
+    #   )
     [property] =
       Repo.all(
         from p in Property,
+          left_join: u in assoc(p, :units),
           where: p.id == ^id,
-          preload: [units: ^units_query]
+          order_by: [asc: u.name],
+          preload: [units: u]
       )
 
     property
