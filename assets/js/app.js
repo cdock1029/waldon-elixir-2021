@@ -24,6 +24,22 @@ let liveSocket = new LiveSocket('/live', Socket, {
   params: { _csrf_token: csrfToken },
 })
 
+/**
+ * @todo: Tell Alpine to clone DOM nodes
+ * https://dockyard.com/blog/2020/12/21/optimizing-user-experience-with-liveview
+ */
+/*
+ +import Alpine from "alpinejs"
+  let liveSocket = new LiveSocket("/live", Socket, {
+  params: {_csrf_token: csrfToken},
++ dom: {
++   onBeforeElUpdated(from, to){
++     if(from.__x){ Alpine.clone(from.__x, to) }
++   }
++ }
+})
+ */
+
 // Show progress bar on live navigation and form submits
 topbar.config({ barColors: { 0: '#29d' }, shadowColor: 'rgba(0, 0, 0, .3)' })
 window.addEventListener('phx:page-loading-start', (info) => topbar.show())
