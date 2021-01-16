@@ -6,7 +6,7 @@ defmodule Waldon.Properties do
   alias Waldon.Properties.Unit
 
   def list_properties do
-    Repo.all(Property)
+    Repo.all(from p in Property, order_by: p.name)
   end
 
   def get_property!(id) do

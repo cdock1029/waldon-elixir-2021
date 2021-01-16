@@ -3,7 +3,7 @@ defmodule Waldon.Properties.Unit do
   import Ecto.Changeset
 
   schema "units" do
-    field :name, :string
+    field :name, :string, default: ""
     # field :property_id, :id
     belongs_to :property, Waldon.Properties.Property
 

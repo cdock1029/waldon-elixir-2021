@@ -17,7 +17,7 @@ defmodule WaldonWeb.PropertyLive.Index do
   @impl true
   def render(assigns) do
     ~L"""
-    <h1>Listing Properties</h1>
+    <h1 class="mt-4 mb-8 text-2xl">Listing Properties</h1>
 
     <%= if @live_action in [:new, :edit] do %>
     <%= live_modal @socket, WaldonWeb.PropertyLive.FormComponent,
@@ -28,7 +28,7 @@ defmodule WaldonWeb.PropertyLive.Index do
     return_to: Routes.property_index_path(@socket, :index) %>
     <% end %>
 
-    <table>
+    <table class="mb-4">
     <thead>
     <tr>
       <th>Name</th>
@@ -53,7 +53,7 @@ defmodule WaldonWeb.PropertyLive.Index do
     </tbody>
     </table>
 
-    <span><%= live_patch "New Property", to: Routes.property_index_path(@socket, :new) %></span>
+    <span><%= live_patch "New Property", to: Routes.property_index_path(@socket, :new), class: "btn" %></span>
     """
   end
 

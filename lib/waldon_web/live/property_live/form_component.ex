@@ -22,7 +22,18 @@ defmodule WaldonWeb.PropertyLive.FormComponent do
     <%= textarea f, :address %>
     <%= error_tag f, :address %>
 
-    <%= submit "Save", phx_disable_with: "Saving..." %>
+    <div class="my-4">
+      <label class="font-bold">Units</label>
+      <%= inputs_for f, :units, fn i -> %>
+        <div>
+          <%= label i, :name %>
+          <%= text_input i, :name %>
+          <%= error_tag i, :name %>
+        </div>
+      <% end %>
+    </div>
+
+    <%= submit "Save", phx_disable_with: "Saving...", class: "btn" %>
     </form>
     """
   end
@@ -30,6 +41,8 @@ defmodule WaldonWeb.PropertyLive.FormComponent do
   @impl true
   def update(%{property: property} = assigns, socket) do
     changeset = Properties.change_property(property)
+
+    IO.inspect(changeset)
 
     {:ok,
      socket

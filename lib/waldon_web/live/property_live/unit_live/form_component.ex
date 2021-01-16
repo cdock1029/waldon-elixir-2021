@@ -47,12 +47,12 @@ defmodule WaldonWeb.PropertyLive.UnitFormComponent do
     save_unit(socket, socket.assigns.action, unit_params)
   end
 
-  defp save_unit(socket, :edit, property_params) do
-    case Properties.update_property(socket.assigns.property, property_params) do
+  defp save_unit(socket, :edit_unit, unit_params) do
+    case Properties.update_unit(socket.assigns.unit, unit_params) do
       {:ok, _property} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Property updated successfully")
+         |> put_flash(:info, "Unit updated successfully")
          |> push_redirect(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->

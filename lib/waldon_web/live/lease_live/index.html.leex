@@ -1,0 +1,43 @@
+<h1>Listing Leases</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <%= live_modal @socket, WaldonWeb.LeaseLive.FormComponent,
+    id: @lease.id || :new,
+    title: @page_title,
+    action: @live_action,
+    lease: @lease,
+    return_to: Routes.lease_index_path(@socket, :index) %>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Start time</th>
+      <th>End time</th>
+      <th>Balance</th>
+      <th>Rent</th>
+      <th>Deposit</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="leases">
+    <%= for lease <- @leases do %>
+      <tr id="lease-<%= lease.id %>">
+        <td><%= lease.start_time %></td>
+        <td><%= lease.end_time %></td>
+        <td><%= lease.balance %></td>
+        <td><%= lease.rent %></td>
+        <td><%= lease.deposit %></td>
+
+        <td>
+          <span><%= live_redirect "Show", to: Routes.lease_show_path(@socket, :show, lease) %></span>
+          <span><%= live_patch "Edit", to: Routes.lease_index_path(@socket, :edit, lease) %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: lease.id, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<span><%= live_patch "New Lease", to: Routes.lease_index_path(@socket, :new) %></span>

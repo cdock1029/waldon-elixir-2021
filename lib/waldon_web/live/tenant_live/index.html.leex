@@ -1,4 +1,4 @@
-<h1>Listing Tenants</h1>
+<h1 class="mt-4 mb-8 text-xl">Listing Tenants</h1>
 <%= if @live_action in [:new, :edit] do %>
   <%= live_modal @socket, WaldonWeb.TenantLive.FormComponent,
     id: @tenant.id || :new,
@@ -7,7 +7,7 @@
     tenant: @tenant,
     return_to: Routes.tenant_index_path(@socket, :index) %>
 <% end %>
-<table class="table-auto">
+<table class="mb-4 table-auto">
   <thead>
     <tr>
       <th class="px-2 py-1 border">First name</th>
@@ -16,7 +16,7 @@
       <th class="px-2 py-1 border">Suffix</th>
       <th class="px-2 py-1 border">Balance</th>
       <th class="px-2 py-1 border">Email</th>
-      <th class="px-2 py-1 border"></th>
+      <th></th>
     </tr>
   </thead>
   <tbody id="tenants">
@@ -37,4 +37,4 @@
     <% end %>
   </tbody>
 </table>
-<span><%= live_patch "New Tenant", to: Routes.tenant_index_path(@socket, :new) %></span>
+<span><%= live_patch "New Tenant", to: Routes.tenant_index_path(@socket, :new), class: "btn" %></span>

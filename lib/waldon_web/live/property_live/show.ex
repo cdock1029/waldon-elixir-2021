@@ -10,11 +10,10 @@ defmodule WaldonWeb.PropertyLive.Show do
   end
 
   @impl true
-  def handle_params(%{"id" => id}, _, socket) do
+  def handle_params(%{"id" => id} = params, _, socket) do
     {:noreply,
      socket
-     # |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> apply_action(socket.assigns.live_action)
+     |> apply_action(socket.assigns.live_action, params)
      |> assign(:property, Properties.get_property!(id))}
   end
 
@@ -32,9 +31,9 @@ defmodule WaldonWeb.PropertyLive.Show do
     return_to: Routes.property_show_path(@socket, :show, @property) %>
     <% end %>
 
-    <%= if @live_action in [:new] do %>
+    <%= if @live_action in [:new, :edit_unit] do %>
     <%= live_modal @socket, WaldonWeb.PropertyLive.UnitFormComponent,
-    id: @property.id,
+    id: @unit.id || :new,
     title: @page_title,
     action: @live_action,
     property: @property,
@@ -57,14 +56,15 @@ defmodule WaldonWeb.PropertyLive.Show do
 
     </ul>
 
-    <span><%= live_patch "Edit", to: Routes.property_show_path(@socket, :edit, @property), class: "button" %></span>
+
+    <span><%= live_patch "Edit", to: Routes.property_show_path(@socket, :edit, @property), class: "btn" %></span>
     <span><%= live_redirect "Back", to: Routes.property_index_path(@socket, :index) %></span>
 
-    <hr/>
+    <hr class="my-2"/>
 
 
     <h3>Units</h3>
-    <table>
+    <table class="mb-4">
     <thead>
     <tr>
       <th>Name</th>
@@ -77,7 +77,7 @@ defmodule WaldonWeb.PropertyLive.Show do
         <td><%= unit.name %></td>
         <td>
           <span><%= live_redirect "Show", to: Routes.property_unit_show_path(@socket, :show, @property, unit) %></span>
-          <span><%= # live_patch "Edit", to: Routes.property_index_path(@socket, :edit, property) %></span>
+          <span><%= live_patch "Edit", to: Routes.property_show_path(@socket, :edit_unit, @property, unit) %></span>
           <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: unit.id, data: [confirm: "Are you sure?"] %></span>
         </td>
       </tr>
@@ -85,24 +85,30 @@ defmodule WaldonWeb.PropertyLive.Show do
     </tbody>
     </table>
 
-    <span><%= live_patch "New Unit", to: Routes.property_show_path(@socket, :new, @property) %></span>
+    <span><%= live_patch "New Unit", to: Routes.property_show_path(@socket, :new, @property), class: "btn" %></span>
     """
   end
 
-  defp apply_action(socket, :new) do
+  defp apply_action(socket, :show, _params) do
+    socket
+    |> assign(:page_title, "Show Property")
+  end
+
+  defp apply_action(socket, :edit, _params) do
+    socket
+    |> assign(:page_title, "Edit Property")
+  end
+
+  defp apply_action(socket, :new, _params) do
     socket
     |> assign(:page_title, "New Unit for Property")
     |> assign(:unit, %Unit{})
   end
 
-  defp apply_action(socket, :show) do
+  defp apply_action(socket, :edit_unit, %{"uid" => uid}) do
     socket
-    |> assign(:page_title, "Show Property")
-  end
-
-  defp apply_action(socket, :edit) do
-    socket
-    |> assign(:page_title, "Edit Property")
+    |> assign(:page_title, "Edit Unit")
+    |> assign(:unit, Properties.get_unit!(uid))
   end
 
   @impl true

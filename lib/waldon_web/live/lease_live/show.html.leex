@@ -1,0 +1,42 @@
+<h1>Show Lease</h1>
+
+<%= if @live_action in [:edit] do %>
+  <%= live_modal @socket, WaldonWeb.LeaseLive.FormComponent,
+    id: @lease.id,
+    title: @page_title,
+    action: @live_action,
+    lease: @lease,
+    return_to: Routes.lease_show_path(@socket, :show, @lease) %>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Start time:</strong>
+    <%= @lease.start_time %>
+  </li>
+
+  <li>
+    <strong>End time:</strong>
+    <%= @lease.end_time %>
+  </li>
+
+  <li>
+    <strong>Balance:</strong>
+    <%= @lease.balance %>
+  </li>
+
+  <li>
+    <strong>Rent:</strong>
+    <%= @lease.rent %>
+  </li>
+
+  <li>
+    <strong>Deposit:</strong>
+    <%= @lease.deposit %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.lease_show_path(@socket, :edit, @lease), class: "button" %></span>
+<span><%= live_redirect "Back", to: Routes.lease_index_path(@socket, :index) %></span>

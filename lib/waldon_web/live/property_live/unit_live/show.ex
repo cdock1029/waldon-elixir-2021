@@ -26,16 +26,17 @@ defmodule WaldonWeb.PropertyLive.UnitShow do
     ~L"""
     <h1>Show Unit</h1>
 
-    <!--
-    <%= if @live_action in [:edit] do %>
-    <%= live_modal @socket, WaldonWeb.PropertyLive.FormComponent,
-    id: @property.id,
+    <%= if @live_action in [:edit_unit] do %>
+    <%= live_modal @socket, WaldonWeb.PropertyLive.UnitFormComponent,
+    id: @unit.id,
     title: @page_title,
     action: @live_action,
     property: @property,
-    return_to: Routes.property_show_path(@socket, :show, @property) %>
+    unit: @unit,
+    return_to: Routes.property_unit_show_path(@socket, :show, @property, @unit) %>
     <% end %>
 
+    <!--
     <%= if @live_action in [:new] do %>
     <%= live_modal @socket, WaldonWeb.PropertyLive.UnitFormComponent,
     id: @property.id,
@@ -45,7 +46,6 @@ defmodule WaldonWeb.PropertyLive.UnitShow do
     unit: @unit,
     return_to: Routes.property_show_path(@socket, :show, @property) %>
     <% end %>
-
     -->
 
 
@@ -58,7 +58,7 @@ defmodule WaldonWeb.PropertyLive.UnitShow do
 
     </ul>
 
-    <span>Edit<%= # live_patch "Edit", to: Routes.property_show_path(@socket, :edit, @property), class: "button" %></span>
+    <span><%= live_patch "Edit", to: Routes.property_unit_show_path(@socket, :edit_unit, @property, @unit), class: "btn" %></span>
     <span><%= live_redirect "Back", to: Routes.property_show_path(@socket, :show, @property) %></span>
     """
   end
@@ -68,7 +68,7 @@ defmodule WaldonWeb.PropertyLive.UnitShow do
     |> assign(:page_title, "Show Unit")
   end
 
-  defp apply_action(socket, :edit) do
+  defp apply_action(socket, :edit_unit) do
     socket
     |> assign(:page_title, "Edit Unit")
   end

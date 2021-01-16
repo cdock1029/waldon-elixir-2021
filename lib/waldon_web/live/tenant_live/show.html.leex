@@ -37,5 +37,5 @@
     <%= @tenant.email %>
   </li>
 </ul>
-<span><%= live_patch "Edit", to: Routes.tenant_show_path(@socket, :edit, @tenant), class: "button" %></span>
+<span><%= live_patch "Edit", to: Routes.tenant_show_path(@socket, :edit, @tenant), class: "btn" %></span>
 <span><%= live_redirect "Back", to: Routes.tenant_index_path(@socket, :index) %></span>

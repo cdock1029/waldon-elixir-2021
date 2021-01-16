@@ -25,9 +25,11 @@ defmodule WaldonWeb.Router do
 
     live "/properties/:id", PropertyLive.Show, :show
     live "/properties/:id/show/edit", PropertyLive.Show, :edit
+    # new Unit
     live "/properties/:id/units/new", PropertyLive.Show, :new
-
+    live "/properties/:id/units/:uid/edit", PropertyLive.Show, :edit_unit
     live "/properties/:id/units/:uid", PropertyLive.UnitShow, :show
+    live "/properties/:id/units/:uid/show/edit", PropertyLive.UnitShow, :edit_unit
 
     live "/tenants", TenantLive.Index, :index
     live "/tenants/new", TenantLive.Index, :new
@@ -35,6 +37,13 @@ defmodule WaldonWeb.Router do
 
     live "/tenants/:id", TenantLive.Show, :show
     live "/tenants/:id/show/edit", TenantLive.Show, :edit
+
+    live "/leases", LeaseLive.Index, :index
+    live "/leases/new", LeaseLive.Index, :new
+    live "/leases/:id/edit", LeaseLive.Index, :edit
+
+    live "/leases/:id", LeaseLive.Show, :show
+    live "/leases/:id/show/edit", LeaseLive.Show, :edit
 
     live "/demo", DemoLive
   end
