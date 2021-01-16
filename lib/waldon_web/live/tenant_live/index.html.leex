@@ -7,28 +7,28 @@
     tenant: @tenant,
     return_to: Routes.tenant_index_path(@socket, :index) %>
 <% end %>
-<table>
+<table class="table-auto">
   <thead>
     <tr>
-      <th>First name</th>
-      <th>Middle name</th>
-      <th>Last name</th>
-      <th>Suffix</th>
-      <th align="right">Balance</th>
-      <th>Email</th>
-      <th></th>
+      <th class="px-2 py-1 border">First name</th>
+      <th class="px-2 py-1 border">Middle name</th>
+      <th class="px-2 py-1 border">Last name</th>
+      <th class="px-2 py-1 border">Suffix</th>
+      <th class="px-2 py-1 border">Balance</th>
+      <th class="px-2 py-1 border">Email</th>
+      <th class="px-2 py-1 border"></th>
     </tr>
   </thead>
   <tbody id="tenants">
     <%= for tenant <- @tenants do %>
       <tr id="tenant-<%= tenant.id %>">
-        <td><%= tenant.first_name %></td>
-        <td><%= tenant.middle_name %></td>
-        <td><%= tenant.last_name %></td>
-        <td><%= tenant.suffix %></td>
-        <td><%= tenant.balance %></td>
-        <td><%= tenant.email %></td>
-        <td>
+        <td class="px-2 py-1 border"><%= tenant.first_name %></td>
+        <td class="px-2 py-1 border"><%= tenant.middle_name %></td>
+        <td class="px-2 py-1 border"><%= tenant.last_name %></td>
+        <td class="px-2 py-1 border"><%= tenant.suffix %></td>
+        <td class="px-2 py-1 border"><%= tenant.balance %></td>
+        <td class="px-2 py-1 border"><%= tenant.email %></td>
+        <td class="px-2 py-1 border">
           <span><%= live_redirect "Show", to: Routes.tenant_show_path(@socket, :show, tenant) %></span>
           <span><%= live_patch "Edit", to: Routes.tenant_index_path(@socket, :edit, tenant) %></span>
           <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: tenant.id, data: [confirm: "Are you sure?"] %></span>

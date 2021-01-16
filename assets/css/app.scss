@@ -4,6 +4,13 @@
 
 @tailwind utilities;
 
+@layer components {
+  th,
+  td {
+    @apply px-2 py-1 border;
+  }
+}
+
 /* This file is for your main application css. */
 /* @import "./phoenix.css"; */
 @import "../node_modules/nprogress/nprogress.css";
