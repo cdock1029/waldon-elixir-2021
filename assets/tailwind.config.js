@@ -3,7 +3,7 @@ module.exports = {
     '../lib/**/*.ex',
     '../lib/**/*.leex',
     '../lib/**/*.eex',
-    './js/**/*.js'
+    './js/**/*.js',
   ],
   darkMode: 'class', // 'media', 'false' or 'class'
   theme: {
@@ -12,5 +12,7 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/forms')
+  ],
 }

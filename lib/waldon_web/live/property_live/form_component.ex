@@ -6,21 +6,36 @@ defmodule WaldonWeb.PropertyLive.FormComponent do
   @impl true
   def render(assigns) do
     ~L"""
-    <h2><%= @title %></h2>
-
-    <%= f = form_for @changeset, "#",
+    <%= f = form_for @changeset,
+    "#",
     id: "property-form",
     phx_target: @myself,
     phx_change: "validate",
     phx_submit: "save" %>
 
-    <%= label f, :name %>
-    <%= text_input f, :name %>
-    <%= error_tag f, :name %>
+    <div>
+      <h3 class="text-lg font-medium leading-6 text-gray-900"><%= @title %></h3>
+      <p class="mt-1 text-sm text-gray-500">
+        Create a new Property
+      </p>
+    </div>
+    <div class="grid grid-cols-1 mt-6 gap-y-6 gap-x-4">
+      <div>
+        <%= label f, :name, class: "block text-sm font-medium text-gray-700" %>
+        <div class="relative mt-1">
+          <%= text_input f, :name, class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" %>
+        </div>
+        <%= error_tag f, :name %>
+      </div>
 
-    <%= label f, :address %>
-    <%= textarea f, :address %>
-    <%= error_tag f, :address %>
+      <div>
+        <%= label f, :address, class: "block text-sm font-medium text-gray-700" %>
+        <div class="relative mt-1">
+          <%= textarea f, :address, rows: 3, class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" %>
+        </div>
+        <%= error_tag f, :address %>
+      </div>
+    </div>
 
     <div class="my-4">
       <label class="font-bold">Units</label>
@@ -33,7 +48,19 @@ defmodule WaldonWeb.PropertyLive.FormComponent do
       <% end %>
     </div>
 
-    <%= submit "Save", phx_disable_with: "Saving...", class: "btn" %>
+    <div class="pt-5">
+    <div class="flex items-center justify-end">
+      <button phx-click="close"phx-target="#modal" type="button" class="px-6 py-1 font-medium text-gray-700 bg-white border border-gray-300 rounded shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+        Cancel
+      </button>
+      <%= submit "Save", phx_disable_with: "Saving...", class: "btn ml-4" %>
+      <!--
+      <button type="submit" class="inline-flex justify-center px-4 py-2 ml-3 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+        Save
+      </button>
+      -->
+    </div>
+    </div>
     </form>
     """
   end
