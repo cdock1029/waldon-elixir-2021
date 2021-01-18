@@ -18,7 +18,13 @@ defmodule Waldon.Leases do
 
   """
   def list_leases do
-    Repo.all(Lease)
+    Repo.all(
+      from lease in Lease,
+        inner_join: unit in assoc(lease, :unit),
+        inner_join: property in assoc(unit, :property),
+        order_by: [property.id, unit.id, desc: :start_time],
+        preload: [unit: {unit, property: property}]
+    )
   end
 
   @doc """

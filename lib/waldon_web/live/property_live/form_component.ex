@@ -16,14 +16,14 @@ defmodule WaldonWeb.PropertyLive.FormComponent do
     <div>
       <h3 class="text-lg font-medium leading-6 text-gray-900"><%= @title %></h3>
       <p class="mt-1 text-sm text-gray-500">
-        Create a new Property
+        Save Property
       </p>
     </div>
     <div class="grid grid-cols-1 mt-6 gap-y-6 gap-x-4">
       <div>
         <%= label f, :name, class: "block text-sm font-medium text-gray-700" %>
         <div class="relative mt-1">
-          <%= text_input f, :name, class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" %>
+          <%= text_input f, :name, autofocus: true, class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" %>
         </div>
         <%= error_tag f, :name %>
       </div>
@@ -39,11 +39,11 @@ defmodule WaldonWeb.PropertyLive.FormComponent do
 
     <div class="my-4">
       <label class="font-bold">Units</label>
-      <%= inputs_for f, :units, fn i -> %>
+      <%= inputs_for f, :units, fn ip -> %>
         <div>
-          <%= label i, :name %>
-          <%= text_input i, :name %>
-          <%= error_tag i, :name %>
+          <%= label ip, :name %>
+          <%= text_input ip, :name %>
+          <%= error_tag ip, :name %>
         </div>
       <% end %>
     </div>
@@ -69,6 +69,7 @@ defmodule WaldonWeb.PropertyLive.FormComponent do
   def update(%{property: property} = assigns, socket) do
     changeset = Properties.change_property(property)
 
+    IO.puts("in update:")
     IO.inspect(changeset)
 
     {:ok,

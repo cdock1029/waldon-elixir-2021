@@ -17,8 +17,8 @@ defmodule Waldon.Properties do
     #       where: p.id == ^id,
     #       preload: [units: ^units_query]
     #   )
-    [property] =
-      Repo.all(
+    property =
+      Repo.one(
         from p in Property,
           left_join: u in assoc(p, :units),
           where: p.id == ^id,

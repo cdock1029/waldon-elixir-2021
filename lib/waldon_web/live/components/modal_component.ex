@@ -11,7 +11,7 @@ defmodule WaldonWeb.ModalComponent do
       phx-target="#<%= @id %>"
       phx-page-loading>
 
-      <div class="max-w-2xl phx-modal-content">
+      <div class="w-full max-w-2xl p-6 -mt-20 shadow phx-modal-content sm:rounded-lg">
         <%= live_patch raw("&times;"), to: @return_to, class: "phx-modal-close" %>
         <%= live_component @socket, @component, @opts %>
       </div>

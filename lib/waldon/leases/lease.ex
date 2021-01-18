@@ -10,7 +10,9 @@ defmodule Waldon.Leases.Lease do
     field :start_time, :utc_datetime
     field :start_date, :date
     field :end_date, :date
-    field :unit_id, :id
+    # field :unit_id, :id
+
+    belongs_to :unit, Waldon.Properties.Unit
 
     timestamps()
   end

@@ -37,8 +37,8 @@ defmodule Waldon.Tenants do
 
   """
   def get_tenant!(id) do
-    [tenant] =
-      Repo.all(
+    tenant =
+      Repo.one(
         from t in Tenant,
           left_join: l in assoc(t, :leases),
           where: t.id == ^id,

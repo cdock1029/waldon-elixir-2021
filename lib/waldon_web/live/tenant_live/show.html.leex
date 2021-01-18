@@ -1,4 +1,9 @@
-<h1 class="mt-4 mb-8 text-3xl">Show Tenant</h1>
+<%= live_redirect to: Routes.tenant_index_path(@socket, :index), class: "inline-block" do %>
+  <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+  </svg>
+<% end %>
+<h1 class="mt-4 mb-8 text-2xl">Show Tenant</h1>
 <%= if @live_action in [:edit] do %>
   <%= live_modal @socket, WaldonWeb.TenantLive.FormComponent,
     id: @tenant.id,
@@ -7,39 +12,58 @@
     tenant: @tenant,
     return_to: Routes.tenant_show_path(@socket, :show, @tenant) %>
 <% end %>
-<ul class="mb-4">
-  <li>
-    <strong>Full name:</strong>
-    <%= @tenant.full_name %>
-  </li>
-  <li>
-    <strong>First name:</strong>
-    <%= @tenant.first_name %>
-  </li>
-  <li>
-    <strong>Middle name:</strong>
-    <%= @tenant.middle_name %>
-  </li>
-  <li>
-    <strong>Last name:</strong>
-    <%= @tenant.last_name %>
-  </li>
-  <li>
-    <strong>Suffix:</strong>
-    <%= @tenant.suffix %>
-  </li>
-  <li>
-    <strong>Balance:</strong>
-    <%= @tenant.balance %>
-  </li>
-  <li>
-    <strong>Email:</strong>
-    <%= @tenant.email %>
-  </li>
-</ul>
-<span><%= live_patch "Edit", to: Routes.tenant_show_path(@socket, :edit, @tenant), class: "btn mr-4" %></span>
-<span><%= live_redirect "Back", to: Routes.tenant_index_path(@socket, :index) %></span>
-<hr class="my-4"/>
+<div class="mx-auto max-w-none">
+  <div class="overflow-hidden bg-white sm:rounded-lg sm:shadow">
+    <div class="px-4 py-5 bg-white sm:px-6">
+      <div class="flex flex-wrap items-center justify-between -mt-2 -ml-4 sm:flex-nowrap">
+        <div class="mt-2 ml-4">
+          <h3 class="text-lg font-medium leading-6 text-gray-900">
+            Job Postings
+          </h3>
+        </div>
+        <div class="flex-shrink-0 mt-2 ml-4">
+          <span><%= live_patch "Edit", to: Routes.tenant_show_path(@socket, :edit, @tenant), class: "btn mr-4 text-sm" %></span>
+          <!--
+          <button type="button" class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            Create new job
+          </button>
+          -->
+        </div>
+      </div>
+    </div>
+    <ul class="divide-y divide-gray-200">
+      <li class="px-4 py-4 sm:px-6">
+        <strong>Full name:</strong>
+        <%= @tenant.full_name %>
+      </li>
+      <li class="px-4 py-4 sm:px-6">
+        <strong>First name:</strong>
+        <%= @tenant.first_name %>
+      </li>
+      <li class="px-4 py-4 sm:px-6">
+        <strong>Middle name:</strong>
+        <%= @tenant.middle_name %>
+      </li>
+      <li class="px-4 py-4 sm:px-6">
+        <strong>Last name:</strong>
+        <%= @tenant.last_name %>
+      </li>
+      <li class="px-4 py-4 sm:px-6">
+        <strong>Suffix:</strong>
+        <%= @tenant.suffix %>
+      </li>
+      <li class="px-4 py-4 sm:px-6">
+        <strong>Balance:</strong>
+        <%= @tenant.balance %>
+      </li>
+      <li class="px-4 py-4 sm:px-6">
+        <strong>Email:</strong>
+        <%= @tenant.email %>
+      </li>
+    </ul>
+  </div>
+</div>
+<br/>
 <h3 class="mt-2 mb-4 text-xl">Tenant leases</h3>
 <ul>
   <%= for lease <- @tenant.leases do %>
