@@ -41,7 +41,15 @@ defmodule Waldon.Leases do
       ** (Ecto.NoResultsError)
 
   """
-  def get_lease!(id), do: Repo.get!(Lease, id)
+  def get_lease!(id) do
+    Repo.one(
+      from l in Lease,
+        where: l.id == ^id,
+        inner_join: u in assoc(l, :unit),
+        inner_join: p in assoc(u, :property),
+        preload: [unit: {u, property: p}]
+    )
+  end
 
   @doc """
   Creates a lease.

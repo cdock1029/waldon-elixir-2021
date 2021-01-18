@@ -30,7 +30,13 @@ defmodule Waldon.Properties do
   end
 
   def get_unit!(id) do
-    Repo.get!(Unit, id)
+    Repo.one(
+      from u in Unit,
+        where: u.id == ^id,
+        left_join: l in assoc(u, :leases),
+        order_by: [desc: l.start_time],
+        preload: [leases: l]
+    )
   end
 
   def create_property(attrs \\ %{}) do

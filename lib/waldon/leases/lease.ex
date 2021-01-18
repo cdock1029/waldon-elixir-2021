@@ -14,6 +14,8 @@ defmodule Waldon.Leases.Lease do
 
     belongs_to :unit, Waldon.Properties.Unit
 
+    many_to_many :tenants, Waldon.Tenants.Tenant, join_through: "tenant_leases"
+
     timestamps()
   end
 

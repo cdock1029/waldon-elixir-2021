@@ -4,8 +4,8 @@ defmodule Waldon.Repo.Migrations.TenantLeaseJoinTable do
   def change do
 
     create table("tenant_leases", primary_key: false) do
-      add :tenant_id, references(:tenants)
-      add :lease_id, references(:leases)
+      add :tenant_id, references(:tenants, on_delete: :delete_all)
+      add :lease_id, references(:leases, on_delete: :delete_all)
     end
 
   end

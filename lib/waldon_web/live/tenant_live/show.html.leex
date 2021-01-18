@@ -65,7 +65,31 @@
 </div>
 <br/>
 <h3 class="mt-2 mb-4 text-xl">Tenant leases</h3>
-<ul>
-  <%= for lease <- @tenant.leases do %>
-  <% end %>
-</ul>
+<table>
+  <thead>
+    <tr>
+      <th>Start time</th>
+      <th>End time</th>
+      <th>Balance</th>
+      <th>Rent</th>
+      <th>Deposit</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="leases">
+    <%= for lease <- @tenant.leases do %>
+      <tr id="lease-<%= lease.id %>">
+        <td><%= lease.start_time %></td>
+        <td><%= lease.end_time %></td>
+        <td><%= lease.balance %></td>
+        <td><%= lease.rent %></td>
+        <td><%= lease.deposit %></td>
+        <td>
+          <span><%= live_redirect "Show", to: Routes.lease_show_path(@socket, :show, lease) %></span>
+          <span><%= live_patch "Edit", to: Routes.lease_index_path(@socket, :edit, lease) %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: lease.id, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
