@@ -7,7 +7,6 @@ defmodule Waldon.Tenants do
   alias Waldon.Repo
 
   alias Waldon.Tenants.Tenant
-  alias Waldon.Leases.Lease
 
   @doc """
   Returns the list of tenants.

@@ -1,0 +1,80 @@
+<%= live_redirect to: Routes.property_index_path(@socket, :index), class: "inline-block mb-4" do %>
+  <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+  </svg>
+<% end %>
+<%= if @live_action in [:edit] do %>
+  <%= live_modal @socket, WaldonWeb.PropertyLive.FormComponent,
+    id: @property.id,
+    title: @page_title,
+    action: @live_action,
+    property: @property,
+    return_to: Routes.property_show_path(@socket, :show, @property) %>
+<% end %>
+<%= if @live_action in [:new, :edit_unit] do %>
+  <%= live_modal @socket, WaldonWeb.PropertyLive.UnitFormComponent,
+    id: @unit.id || :new,
+    title: @page_title,
+    action: @live_action,
+    property: @property,
+    unit: @unit,
+    return_to: Routes.property_show_path(@socket, :show, @property) %>
+<% end %>
+<div class="overflow-hidden bg-white divide-y divide-gray-200 rounded-lg shadow">
+  <div class="px-4 py-5 bg-white sm:px-6">
+    <div class="flex flex-wrap items-center justify-between -mt-2 -ml-4 sm:flex-nowrap">
+      <div class="mt-2 ml-4">
+        <h3 class="text-lg font-medium leading-6 text-gray-900">
+          <%= @property.name %>
+        </h3>
+      </div>
+      <div class="flex-shrink-0 mt-2 ml-4">
+        <span><%= live_patch "Edit", to: Routes.property_show_path(@socket, :edit, @property), class: "btn" %></span>
+      </div>
+    </div>
+  </div>
+  <div class="px-4 py-5 sm:p-6">
+    <strong>Address:</strong>
+    <%= @property.address %>
+    <span><%= live_redirect "Back", to: Routes.property_index_path(@socket, :index) %></span>
+  </div>
+</div>
+<hr class="my-4"/>
+<h3 class="flex items-center justify-between mt-3 mb-6">
+  <span class="text-xl">
+    Units
+  </span>
+  <span><%= live_patch "New Unit", to: Routes.property_show_path(@socket, :new, @property), class: "btn" %></span>
+</h3>
+<div class="flex flex-col">
+  <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+    <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+      <div class="overflow-hidden shadow sm:rounded-lg">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                Name
+              </th>
+              <th scope="col" class="relative px-6 py-3">
+                <span class="sr-only">Links</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody id="units" class="bg-white divide-y divide-gray-200">
+            <%= for unit <- @property.units do %>
+              <tr id="unit-<%= unit.id %>">
+                <td class="px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap"><%= unit.name %></td>
+                <td class="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
+                  <span><%= live_redirect "Show", to: Routes.property_unit_show_path(@socket, :show, @property, unit) %></span>
+                  <span><%= live_patch "Edit", to: Routes.property_show_path(@socket, :edit_unit, @property, unit) %></span>
+                  <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: unit.id, data: [confirm: "Are you sure?"] %></span>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
