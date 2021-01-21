@@ -1,4 +1,7 @@
 defmodule WaldonWeb.TenantLive.Index do
+  @moduledoc """
+  This is the index route for CRUD ops on Tenants
+  """
   use WaldonWeb, :live_view
 
   alias Waldon.Tenants

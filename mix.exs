@@ -33,6 +33,7 @@ defmodule Waldon.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
       {:ecto_sql, "~> 3.5"},
       {:floki, "~> 0.29", only: :test},
       {:gettext, "~> 0.18"},

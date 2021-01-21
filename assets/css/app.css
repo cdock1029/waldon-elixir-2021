@@ -7,6 +7,19 @@
 @import './inter.css';
 
 @layer base {
+  body {
+    overflow-y: overlay;
+  }
+
+  main {
+    /* header: 88px (5.5rem), main pt: 2rem */
+    padding-top: 7.5rem;
+  }
+
+  [x-cloak] {
+    display: none;
+  }
+
   th,
   td {
     a {

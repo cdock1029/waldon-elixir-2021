@@ -40,9 +40,9 @@
                   <%= property.address %>
                 </td>
                 <td class="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
-                  <span><%= live_redirect "Show", to: Routes.property_show_path(@socket, :show, property) %></span>
-                  <span><%= live_patch "Edit", to: Routes.property_index_path(@socket, :edit, property) %></span>
-                  <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: property.id, data: [confirm: "Are you sure?"] %></span>
+                  <span><%= live_redirect "Show", to: Routes.property_show_path(@socket, :show, property), class: "text-indigo-600 hover:text-indigo-900" %></span>
+                  <span><%= live_patch "Edit", to: Routes.property_index_path(@socket, :edit, property), class: "text-indigo-600 hover:text-indigo-900" %></span>
+                  <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: property.id, data: [confirm: "Are you sure?"], class: "text-indigo-600 hover:text-indigo-900" %></span>
                 </td>
               </tr>
             <% end %>

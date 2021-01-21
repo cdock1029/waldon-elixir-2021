@@ -2,6 +2,8 @@ defmodule WaldonWeb.PropertyLive.FormComponent do
   use WaldonWeb, :live_component
 
   alias Waldon.Properties
+  alias Waldon.Properties.Unit
+  alias Ecto.Changeset
 
   @impl true
   def render(assigns) do
@@ -39,26 +41,25 @@ defmodule WaldonWeb.PropertyLive.FormComponent do
 
     <div class="my-4">
       <label class="font-bold">Units</label>
-      <%= inputs_for f, :units, fn ip -> %>
+      <button phx-click="add_unit" phx-target=<%= @myself %> type="button" class="px-2 py-1 mx-4 text-xs btn">Add unit</button>
+      <%= inputs_for f, :units, [append: [%Unit{}]], fn ip -> %>
         <div>
+          <div>
           <%= label ip, :name %>
           <%= text_input ip, :name %>
           <%= error_tag ip, :name %>
+          <button phx-click="delete_unit" phx-target="<%= @myself %>" type="button" class="px-2 py-1 mx-4 text-xs btn">Delete</button>
+          </div>
         </div>
       <% end %>
     </div>
 
     <div class="pt-5">
     <div class="flex items-center justify-end">
-      <button phx-click="close"phx-target="#modal" type="button" class="px-6 py-1 font-medium text-gray-700 bg-white border border-gray-300 rounded shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+      <button phx-click="close" phx-target="#modal" type="button" class="px-6 py-1 font-medium text-gray-700 bg-white border border-gray-300 rounded shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
         Cancel
       </button>
       <%= submit "Save", phx_disable_with: "Saving...", class: "btn ml-4" %>
-      <!--
-      <button type="submit" class="inline-flex justify-center px-4 py-2 ml-3 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-        Save
-      </button>
-      -->
     </div>
     </div>
     </form>
@@ -68,9 +69,6 @@ defmodule WaldonWeb.PropertyLive.FormComponent do
   @impl true
   def update(%{property: property} = assigns, socket) do
     changeset = Properties.change_property(property)
-
-    IO.puts("in update:")
-    IO.inspect(changeset)
 
     {:ok,
      socket
@@ -85,11 +83,32 @@ defmodule WaldonWeb.PropertyLive.FormComponent do
       |> Properties.change_property(property_params)
       |> Map.put(:action, :validate)
 
+    # IO.inspect(changeset)
+
     {:noreply, assign(socket, :changeset, changeset)}
   end
 
+  @impl true
   def handle_event("save", %{"property" => property_params}, socket) do
     save_property(socket, socket.assigns.action, property_params)
+  end
+
+  @impl true
+  def handle_event("add_unit", _value, socket) do
+    changeset = socket.assigns.changeset
+    units = Changeset.get_field(changeset, :units)
+
+    {:noreply,
+     socket
+     |> assign(:changeset, Changeset.put_assoc(changeset, :units, [%Unit{} | units]))}
+  end
+
+  @impl true
+  def handle_event("delete_unit", _value, socket) do
+    {
+      :noreply,
+      socket
+    }
   end
 
   defp save_property(socket, :edit, property_params) do

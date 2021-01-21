@@ -4,9 +4,8 @@ defmodule Waldon.Properties.Unit do
 
   schema "units" do
     field :name, :string, default: ""
-    # field :property_id, :id
-    belongs_to :property, Waldon.Properties.Property
 
+    belongs_to :property, Waldon.Properties.Property
     has_many :leases, Waldon.Leases.Lease
 
     timestamps()
