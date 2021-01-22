@@ -2,8 +2,6 @@ defmodule WaldonWeb.PropertyLive.FormComponent do
   use WaldonWeb, :live_component
 
   alias Waldon.Properties
-  alias Waldon.Properties.Unit
-  alias Ecto.Changeset
 
   @impl true
   def render(assigns) do
@@ -39,20 +37,20 @@ defmodule WaldonWeb.PropertyLive.FormComponent do
       </div>
     </div>
 
+    <!--
     <div class="my-4">
       <label class="font-bold">Units</label>
-      <button phx-click="add_unit" phx-target=<%= @myself %> type="button" class="px-2 py-1 mx-4 text-xs btn">Add unit</button>
-      <%= inputs_for f, :units, [append: [%Unit{}]], fn ip -> %>
+      <%= inputs_for f, :units, fn ip -> %>
         <div>
           <div>
           <%= label ip, :name %>
           <%= text_input ip, :name %>
           <%= error_tag ip, :name %>
-          <button phx-click="delete_unit" phx-target="<%= @myself %>" type="button" class="px-2 py-1 mx-4 text-xs btn">Delete</button>
           </div>
         </div>
       <% end %>
     </div>
+    -->
 
     <div class="pt-5">
     <div class="flex items-center justify-end">
@@ -91,24 +89,6 @@ defmodule WaldonWeb.PropertyLive.FormComponent do
   @impl true
   def handle_event("save", %{"property" => property_params}, socket) do
     save_property(socket, socket.assigns.action, property_params)
-  end
-
-  @impl true
-  def handle_event("add_unit", _value, socket) do
-    changeset = socket.assigns.changeset
-    units = Changeset.get_field(changeset, :units)
-
-    {:noreply,
-     socket
-     |> assign(:changeset, Changeset.put_assoc(changeset, :units, [%Unit{} | units]))}
-  end
-
-  @impl true
-  def handle_event("delete_unit", _value, socket) do
-    {
-      :noreply,
-      socket
-    }
   end
 
   defp save_property(socket, :edit, property_params) do

@@ -20,10 +20,14 @@
     display: none;
   }
 
+  tbody {
+    @apply tabular-nums;
+  }
+
   th,
   td {
     a {
-      @apply underline mx-2;
+      @apply underline mx-2 text-indigo-600 hover:text-indigo-900;
     }
   }
 }
