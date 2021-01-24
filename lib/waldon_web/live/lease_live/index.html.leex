@@ -26,6 +26,9 @@
                 Unit
               </th>
               <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                Tenants
+              </th>
+              <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
                 Start
               </th>
               <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
@@ -60,6 +63,9 @@
                   </td>
                   <td class="px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap">
                     <%= lease.unit.name %>
+                  </td>
+                  <td class="px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap">
+                    <%= lease.tenants |> Enum.map(&(&1.full_name)) |> Enum.join(", ") %>
                   </td>
                   <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
                     <%= Timex.format!(lease.start_time, "{YYYY} {Mshort} {D}") %>

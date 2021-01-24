@@ -22,9 +22,12 @@ defmodule Waldon.Leases do
       from lease in Lease,
         inner_join: unit in assoc(lease, :unit),
         inner_join: property in assoc(unit, :property),
+        inner_join: tenants in assoc(lease, :tenants),
         order_by: [property.id, unit.id, desc: :start_time],
-        preload: [unit: {unit, property: property}]
+        preload: [unit: {unit, property: property}, tenants: tenants]
     )
+
+    # |> Repo.preload(:tenants)
   end
 
   @doc """

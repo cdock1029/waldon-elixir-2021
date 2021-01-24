@@ -23,6 +23,7 @@ defmodule Waldon.Leases.Lease do
   def changeset(lease, attrs) do
     lease
     |> cast(attrs, [:start_time, :end_time, :balance, :rent, :deposit])
+    # |> cast_assoc(:tenants)
     |> validate_required([:start_time, :end_time, :balance, :rent, :deposit])
   end
 end
