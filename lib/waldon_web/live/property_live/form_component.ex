@@ -15,11 +15,11 @@ defmodule WaldonWeb.PropertyLive.FormComponent do
 
     <div>
       <h3 class="text-lg font-medium leading-6 text-gray-900"><%= @title %></h3>
-      <p class="mt-1 text-sm text-gray-500">
+      <p class="mt-2 text-sm text-gray-500">
         Save Property
       </p>
     </div>
-    <div class="grid grid-cols-1 mt-6 gap-y-6 gap-x-4">
+    <div class="grid grid-cols-1 mt-5 gap-y-6 gap-x-4">
       <div>
         <%= label f, :name, class: "block text-sm font-medium text-gray-700" %>
         <div class="relative mt-1">

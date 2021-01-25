@@ -12,87 +12,81 @@
   </span>
   <%= live_patch "New Lease", to: Routes.lease_index_path(@socket, :new), class: "btn" %>
 </h1>
-<div class="flex flex-col">
-  <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-    <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-      <div class="overflow-hidden shadow sm:rounded-lg">
-        <table class="min-w-full divide-y divide-gray-200">
-          <thead class="bg-gray-50">
-            <tr>
-              <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                Property
-              </th>
-              <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                Unit
-              </th>
-              <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                Tenants
-              </th>
-              <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                Start
-              </th>
-              <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                End
-              </th>
-              <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-right text-gray-500 uppercase">
-                Balance
-              </th>
-              <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-right text-gray-500 uppercase">
-                Rent
-              </th>
-              <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-right text-gray-500 uppercase">
-                Deposit
-              </th>
-              <th scope="col" class="relative px-6 py-3">
-                <span class="sr-only">Edit</span>
-              </th>
-            </tr>
-          </thead>
-          <tbody id="leases">
-            <%= for {lease, i} <- Enum.with_index(@leases) do %>
-              <%= case rem(i, 2) do %>
-                <% 0 -> %>
-                <!-- Even row -->
-                <tr class="bg-white" id="lease-<%= lease.id %>">
-                  <% 1 -> %>
-                  <!-- Odd row -->
-                  <tr class="bg-gray-50" id="lease-<%= lease.id %>">
-                  <% end %>
-                  <td class="px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap">
-                    <%= lease.unit.property.name %>
-                  </td>
-                  <td class="px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap">
-                    <%= lease.unit.name %>
-                  </td>
-                  <td class="px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap">
-                    <%= lease.tenants |> Enum.map(&(&1.full_name)) |> Enum.join(", ") %>
-                  </td>
-                  <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
-                    <%= Timex.format!(lease.start_time, "{YYYY} {Mshort} {D}") %>
-                  </td>
-                  <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
-                    <%= Timex.format!(lease.end_time, "{YYYY} {Mshort} {D}") %>
-                  </td>
-                  <td class="px-6 py-4 text-sm text-right text-gray-500 whitespace-nowrap">
-                    <%= lease.balance %>
-                  </td>
-                  <td class="px-6 py-4 text-sm text-right text-gray-500 whitespace-nowrap">
-                    <%= lease.rent %>
-                  </td>
-                  <td class="px-6 py-4 text-sm text-right text-gray-500 whitespace-nowrap">
-                    <%= lease.deposit %>
-                  </td>
-                  <td class="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
-                    <span><%= live_redirect "Show", to: Routes.lease_show_path(@socket, :show, lease) %></span>
-                    <span><%= live_patch "Edit", to: Routes.lease_index_path(@socket, :edit, lease) %></span>
-                    <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: lease.id, data: [confirm: "Are you sure?"] %></span>
-                  </td>
-                </tr>
-              <% end %>
-              <!-- More items... -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
+<div class="overflow-hidden shadow sm:rounded-lg">
+  <table class="min-w-full divide-y divide-gray-200">
+    <thead class="bg-gray-50">
+      <tr>
+        <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+          Property
+        </th>
+        <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+          Unit
+        </th>
+        <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+          Tenants
+        </th>
+        <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+          Start
+        </th>
+        <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+          End
+        </th>
+        <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-right text-gray-500 uppercase">
+          Balance
+        </th>
+        <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-right text-gray-500 uppercase">
+          Rent
+        </th>
+        <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-right text-gray-500 uppercase">
+          Deposit
+        </th>
+        <th scope="col" class="relative px-6 py-3">
+          <span class="sr-only">Edit</span>
+        </th>
+      </tr>
+    </thead>
+    <tbody id="leases">
+      <%= for {lease, i} <- Enum.with_index(@leases) do %>
+        <%= case rem(i, 2) do %>
+          <% 0 -> %>
+          <!-- Even row -->
+          <tr class="bg-white" id="lease-<%= lease.id %>">
+            <% 1 -> %>
+            <!-- Odd row -->
+            <tr class="bg-gray-50" id="lease-<%= lease.id %>">
+            <% end %>
+            <td class="px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap">
+              <%= lease.unit.property.name %>
+            </td>
+            <td class="px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap">
+              <%= lease.unit.name %>
+            </td>
+            <td class="px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap">
+              <%= lease.tenants |> Enum.map(&(&1.full_name)) |> Enum.join(", ") %>
+            </td>
+            <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
+              <%= Timex.format!(lease.start_time, "{YYYY} {Mshort} {D}") %>
+            </td>
+            <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
+              <%= Timex.format!(lease.end_time, "{YYYY} {Mshort} {D}") %>
+            </td>
+            <td class="px-6 py-4 text-sm text-right text-gray-500 whitespace-nowrap">
+              <%= lease.balance %>
+            </td>
+            <td class="px-6 py-4 text-sm text-right text-gray-500 whitespace-nowrap">
+              <%= lease.rent %>
+            </td>
+            <td class="px-6 py-4 text-sm text-right text-gray-500 whitespace-nowrap">
+              <%= lease.deposit %>
+            </td>
+            <td class="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
+              <span><%= live_redirect "Show", to: Routes.lease_show_path(@socket, :show, lease) %></span>
+              <span><%= live_patch "Edit", to: Routes.lease_index_path(@socket, :edit, lease) %></span>
+              <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: lease.id, data: [confirm: "Are you sure?"] %></span>
+            </td>
+          </tr>
+        <% end %>
+        <!-- More items... -->
+      </tbody>
+    </table>
   </div>
