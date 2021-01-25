@@ -13,7 +13,7 @@
     <script defer phx-track-static type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </head>
   <body class="relative bg-gray-200">
-    <%= live_render(@conn, WaldonWeb.HeaderComponent) %>
+    <%= render WaldonWeb.HeaderView, "header_view.html", assigns %>
     <main role="main" class="px-8 pb-8 mx-auto max-w-7xl">
       <%= @inner_content %>
     </main>

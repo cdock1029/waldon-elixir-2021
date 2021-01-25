@@ -33,17 +33,23 @@ defmodule Waldon.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:bcrypt_elixir, "~> 2.0"},
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
       {:ecto_sql, "~> 3.5"},
       {:floki, "~> 0.29", only: :test},
       {:gettext, "~> 0.18"},
       {:jason, "~> 1.0"},
-      {:phoenix, "~> 1.5"},
+      # https://github.com/elixir-ecto/ecto/issues/3464#issuecomment-721964533
+      {:phoenix,
+       github: "phoenixframework/phoenix",
+       ref: "b5580e9cd1c78e0460d2df30807f4f99bd8b3051",
+       override: true},
       {:phoenix_ecto, "~> 4.2"},
       {:phoenix_html, "~> 2.14"},
       {:phoenix_live_dashboard, "~> 0.4"},
       {:phoenix_live_reload, "~> 1.3", only: :dev},
       {:phoenix_live_view, "~> 0.15"},
+      {:phx_gen_auth, "~> 0.6", only: [:dev], runtime: false},
       {:plug_cowboy, "~> 2.4"},
       {:postgrex, "~> 0.15"},
       {:telemetry_metrics, "~> 0.4"},
