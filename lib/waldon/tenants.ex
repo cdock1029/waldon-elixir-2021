@@ -112,4 +112,13 @@ defmodule Waldon.Tenants do
   def change_tenant(%Tenant{} = tenant, attrs \\ %{}) do
     Tenant.changeset(tenant, attrs)
   end
+
+  def search_tenants_full_name(query) do
+    search = "%#{query}%"
+
+    Repo.all(
+      from t in Tenant,
+        where: like(t.full_name, ^search)
+    )
+  end
 end
