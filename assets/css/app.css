@@ -30,6 +30,19 @@
       @apply underline mx-2 text-indigo-600 hover:text-indigo-900;
     }
   }
+
+  form {
+    label {
+      @apply block text-sm font-medium text-gray-700;
+    }
+  }
+  select {
+    @apply mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm;
+  }
+  select[name*='[hour]'],
+  select[name*='[minute]'] {
+    display: none;
+  }
 }
 
 @layer components {

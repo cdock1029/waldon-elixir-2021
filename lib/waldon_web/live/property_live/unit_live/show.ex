@@ -36,19 +36,6 @@ defmodule WaldonWeb.PropertyLive.UnitShow do
     return_to: Routes.property_unit_show_path(@socket, :show, @property, @unit) %>
     <% end %>
 
-    <!--
-    <%= if @live_action in [:new] do %>
-    <%= live_modal @socket, WaldonWeb.PropertyLive.UnitFormComponent,
-    id: @property.id,
-    title: @page_title,
-    action: @live_action,
-    property: @property,
-    unit: @unit,
-    return_to: Routes.property_show_path(@socket, :show, @property) %>
-    <% end %>
-    -->
-
-
     <ul>
 
     <li>

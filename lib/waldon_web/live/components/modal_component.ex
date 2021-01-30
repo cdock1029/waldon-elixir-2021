@@ -5,14 +5,12 @@ defmodule WaldonWeb.ModalComponent do
   def render(assigns) do
     ~L"""
     <div id="<%= @id %>" class="phx-modal"
-      phx-capture-click="close"
       phx-window-keydown="close"
       phx-key="escape"
       phx-target="#<%= @id %>"
       phx-page-loading>
 
-      <div class="w-full max-w-2xl p-6 -mt-20 bg-white shadow phx-modal-content sm:rounded-lg">
-        <%= live_patch raw("&times;"), to: @return_to, class: "phx-modal-close" %>
+      <div class="w-full max-w-3xl p-6 -mt-24 bg-white shadow phx-modal-content sm:rounded-lg">
         <%= live_component @socket, @component, @opts %>
       </div>
     </div>

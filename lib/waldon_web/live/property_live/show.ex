@@ -13,8 +13,8 @@ defmodule WaldonWeb.PropertyLive.Show do
   def handle_params(%{"id" => id} = params, _, socket) do
     {:noreply,
      socket
-     |> apply_action(socket.assigns.live_action, params)
-     |> assign(:property, Properties.get_property!(id))}
+     |> assign(:property, Properties.get_property!(id))
+     |> apply_action(socket.assigns.live_action, params)}
   end
 
   defp apply_action(socket, :show, _params) do
@@ -29,7 +29,7 @@ defmodule WaldonWeb.PropertyLive.Show do
 
   defp apply_action(socket, :new, _params) do
     socket
-    |> assign(:page_title, "New Unit for Property")
+    |> assign(:page_title, "New Unit for #{socket.assigns.property.name}")
     |> assign(:unit, %Unit{})
   end
 

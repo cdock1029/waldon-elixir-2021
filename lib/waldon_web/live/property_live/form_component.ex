@@ -20,6 +20,7 @@ defmodule WaldonWeb.PropertyLive.FormComponent do
       </p>
     </div>
     <div class="grid grid-cols-1 mt-5 gap-y-6 gap-x-4">
+
       <div>
         <%= label f, :name, class: "block text-sm font-medium text-gray-700" %>
         <div class="relative mt-1">
@@ -36,21 +37,6 @@ defmodule WaldonWeb.PropertyLive.FormComponent do
         <%= error_tag f, :address %>
       </div>
     </div>
-
-    <!--
-    <div class="my-4">
-      <label class="font-bold">Units</label>
-      <%= inputs_for f, :units, fn ip -> %>
-        <div>
-          <div>
-          <%= label ip, :name %>
-          <%= text_input ip, :name %>
-          <%= error_tag ip, :name %>
-          </div>
-        </div>
-      <% end %>
-    </div>
-    -->
 
     <div class="pt-5">
     <div class="flex items-center justify-end">

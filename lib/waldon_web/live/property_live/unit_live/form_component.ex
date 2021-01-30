@@ -6,19 +6,41 @@ defmodule WaldonWeb.PropertyLive.UnitFormComponent do
   @impl true
   def render(assigns) do
     ~L"""
-    <h2><%= @title %></h2>
-
-    <%= f = form_for @changeset, "#",
+    <%= f = form_for @changeset,
+    "#",
     id: "unit-form",
     phx_target: @myself,
     phx_change: "validate",
     phx_submit: "save" %>
 
-    <%= label f, :name %>
-    <%= text_input f, :name %>
-    <%= error_tag f, :name %>
+    <div>
+      <h3 class="text-lg font-medium leading-6 text-gray-900"><%= @title %></h3>
+      <p class="mt-2 text-sm text-gray-500">
+        Save Unit
+      </p>
+    </div>
 
-    <%= submit "Save", phx_disable_with: "Saving..." %>
+
+    <div class="grid grid-cols-1 mt-5 gap-y-6 gap-x-4">
+
+      <div>
+        <%= label f, :name, class: "block text-sm font-medium text-gray-700" %>
+        <div class="relative mt-1">
+          <%= text_input f, :name, class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"  %>
+        </div>
+        <%= error_tag f, :name %>
+      </div>
+
+
+      <div class="pt-5">
+      <div class="flex items-center justify-end">
+        <button phx-click="close" phx-target="#modal" type="button" class="px-6 py-1 font-medium text-gray-700 bg-white border border-gray-300 rounded shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          Cancel
+        </button>
+        <%= submit "Save", phx_disable_with: "Saving...", class: "btn ml-4" %>
+      </div>
+
+    </div>
     </form>
     """
   end

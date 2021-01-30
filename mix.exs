@@ -42,7 +42,7 @@ defmodule Waldon.MixProject do
       # https://github.com/elixir-ecto/ecto/issues/3464#issuecomment-721964533
       {:phoenix,
        github: "phoenixframework/phoenix",
-       ref: "b5580e9cd1c78e0460d2df30807f4f99bd8b3051",
+       ref: "a1f9a0f4f02ec7dc20087cae64f25b4066104e78",
        override: true},
       {:phoenix_ecto, "~> 4.2"},
       {:phoenix_html, "~> 2.14"},
