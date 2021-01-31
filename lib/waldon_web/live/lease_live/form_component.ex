@@ -15,24 +15,23 @@ defmodule WaldonWeb.LeaseLive.FormComponent do
   end
 
   @impl true
-  def handle_event("suggest", %{"q" => query}, socket) do
-    IO.puts("suggest: #{query}")
-    socket = assign(socket, results: search(query), query: query)
-    {:noreply, socket}
-  end
-
-  @impl true
-  def handle_event("validate", %{"lease" => lease_params, "q" => query}, socket) do
+  def handle_event("validate", %{"lease" => lease_params}, socket) do
     changeset =
       socket.assigns.lease
       |> Leases.change_lease(lease_params)
       |> Map.put(:action, :validate)
 
-    {:noreply, assign(socket, changeset: changeset, results: search(query), query: query)}
+    {:noreply, assign(socket, changeset: changeset)}
   end
 
   def handle_event("save", %{"lease" => lease_params}, socket) do
     save_lease(socket, socket.assigns.action, lease_params)
+  end
+
+  def handle_info({:tenants_selected, selected}, socket) do
+    IO.puts("tenants selected:\n")
+    IO.inspect(selected)
+    {:noreply, socket}
   end
 
   defp save_lease(socket, :edit, lease_params) do
@@ -59,9 +58,5 @@ defmodule WaldonWeb.LeaseLive.FormComponent do
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, changeset: changeset)}
     end
-  end
-
-  defp search(query) do
-    Tenants.search_tenants_full_name(query)
   end
 end

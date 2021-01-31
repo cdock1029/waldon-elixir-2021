@@ -4,6 +4,7 @@
     Save Lease
   </p>
 </div>
+<%= live_component @socket, WaldonWeb.TenantLive.TenantSearchComponent, id: "tenant-search-component" %>
 <%= f = form_for @changeset, "#",
   id: "lease-form",
   class: "divide-y divide-gray-200 space-y-8",
@@ -13,50 +14,38 @@
 <div>
   <div class="grid grid-cols-6 mt-5 gap-y-6 gap-x-4">
     <div class="col-span-6">
-      <input class="block w-full mb-4 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" type="text" name="q" value="<%= @query %>" placeholder="Tenant search" autocomplete="off"/>
-      <select name="tenants[]" class="mb-4" required multiple>
-        <option hidden disabled selected value>Select tenant</option>
-        <%= for tenant <- @results do %>
-          <option value="<%= tenant.id %>"><%= tenant.full_name %></option>
-        <% end %>
-      </select>
-      <hr/>
-      <%= inputs_for f, :tenants, [append: [%Waldon.Tenants.Tenant{}]], fn ft -> %>
-      <%= text_input ft, :id %>
-    <% end %>
-  </select>
-</div>
-<div class="col-span-6">
-  <%= label f, "Start" %>
-  <%= datetime_compact f, :start_time %>
-  <%= error_tag f, :start_time %>
-</div>
-<div class="col-span-6">
-  <%= label f, "End" %>
-  <%= datetime_compact f, :end_time %>
-  <%= error_tag f, :end_time %>
-</div>
-<div class="col-span-3">
-  <%= label f, :rent %>
-  <div class="relative mt-1 rounded-md shadow-sm">
-    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-      <span class="text-gray-500 sm:text-sm">$</span>
     </div>
-    <%= text_input f, :rent, pattern: "^[0-9]+(\.[0-9]{1,2})?$", class: "focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md", placeholder: "0.00" %>
-  </div>
-  <%= error_tag f, :rent %>
-</div>
-<div class="col-span-3">
-  <%= label f, :deposit %>
-  <div class="relative mt-1 rounded-md shadow-sm">
-    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-      <span class="text-gray-500 sm:text-sm">$</span>
+    <div class="col-span-6">
+      <%= label f, "Start" %>
+      <%= datetime_compact f, :start_time %>
+      <%= error_tag f, :start_time %>
     </div>
-    <%= number_input f, :deposit, step: "0.01", class: "focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md", placeholder: "0.00" %>
+    <div class="col-span-6">
+      <%= label f, "End" %>
+      <%= datetime_compact f, :end_time %>
+      <%= error_tag f, :end_time %>
+    </div>
+    <div class="col-span-3">
+      <%= label f, :rent %>
+      <div class="relative mt-1 rounded-md shadow-sm">
+        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+          <span class="text-gray-500 sm:text-sm">$</span>
+        </div>
+        <%= text_input f, :rent, pattern: "^[0-9]+(\.[0-9]{1,2})?$", class: "focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md", placeholder: "0.00" %>
+      </div>
+      <%= error_tag f, :rent %>
+    </div>
+    <div class="col-span-3">
+      <%= label f, :deposit %>
+      <div class="relative mt-1 rounded-md shadow-sm">
+        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+          <span class="text-gray-500 sm:text-sm">$</span>
+        </div>
+        <%= number_input f, :deposit, step: "0.01", class: "focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md", placeholder: "0.00" %>
+      </div>
+      <%= error_tag f, :deposit %>
+    </div>
   </div>
-  <%= error_tag f, :deposit %>
-</div>
-</div>
 </div>
 <div class="pt-5">
   <div class="flex items-center justify-end">
