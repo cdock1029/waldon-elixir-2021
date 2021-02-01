@@ -11,8 +11,6 @@ defmodule Waldon.Tenants.Tenant do
     field :suffix, :string
     field :full_name, :string
 
-    field :selected, :boolean, virtual: true
-
     many_to_many :leases, Waldon.Leases.Lease, join_through: "tenant_leases"
 
     timestamps()
