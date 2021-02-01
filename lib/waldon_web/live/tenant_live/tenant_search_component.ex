@@ -3,20 +3,18 @@ defmodule WaldonWeb.TenantLive.TenantSearchComponent do
 
   alias Waldon.Tenants
 
+  @impl true
   def mount(socket) do
-    socket = assign(socket, query: "", results: [])
-    {:ok, socket}
+    {:ok, assign(socket, query: "", results: [])}
   end
 
-  def handle_event("suggest", %{"q" => query}, socket) do
-    socket = assign(socket, results: search(query), query: query)
-    {:noreply, socket}
+  @impl true
+  def handle_event("search", %{"query" => query}, socket) do
+    {:noreply, assign(socket, results: search(query))}
   end
 
-  def handle_event("select", param, socket) do
-    IO.inspect(param)
-
-    # send(self(), {:tenant_selected, Tenants.get_tenant!(id)})
+  def handle_event("select", %{"tenant" => tenant}, socket) do
+    send_update(WaldonWeb.LeaseLive.FormComponent, id: :new, tenant_selected: tenant)
 
     {:noreply, socket}
   end

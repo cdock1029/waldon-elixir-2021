@@ -4,6 +4,7 @@
     Save Lease
   </p>
 </div>
+<%= live_component @socket, WaldonWeb.TenantLive.TenantSearchComponent, id: "tenant-search-component" %>
 <%= f = form_for @changeset, "#",
   id: "lease-form",
   class: "divide-y divide-gray-200 space-y-8",
@@ -12,15 +13,11 @@
   phx_submit: "save" %>
 <div>
   <div class="grid grid-cols-6 mt-5 gap-y-6 gap-x-4">
-    <div class="col-span-6">
-      <input class="block w-full mb-4 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" type="text" name="q" value="<%= @query %>" placeholder="Tenant search" autocomplete="off"/>
-      <select name="tenants[]" class="mb-4" required multiple>
-        <option hidden disabled selected value>Select tenant</option>
-        <%= for tenant <- @results do %>
-          <option value="<%= tenant.id %>"><%= tenant.full_name %></option>
-        <% end %>
-      </select>
-    </div>
+    <%= for tenant <- @lease.tenants do %>
+      <p class="col-span-3 border border-gray-500">
+        <%= tenant.full_name %>
+      </p>
+    <% end %>
     <div class="col-span-6">
       <%= label f, "Start" %>
       <%= datetime_compact f, :start_time %>

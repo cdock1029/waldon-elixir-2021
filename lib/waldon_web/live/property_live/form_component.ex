@@ -67,8 +67,6 @@ defmodule WaldonWeb.PropertyLive.FormComponent do
       |> Properties.change_property(property_params)
       |> Map.put(:action, :validate)
 
-    # IO.inspect(changeset)
-
     {:noreply, assign(socket, :changeset, changeset)}
   end
 

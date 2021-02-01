@@ -37,7 +37,7 @@ defmodule Waldon.Tenants do
   """
   def get_tenant!(id) do
     tenant =
-      Repo.one(
+      Repo.one!(
         from t in Tenant,
           left_join: l in assoc(t, :leases),
           where: t.id == ^id,
@@ -46,6 +46,10 @@ defmodule Waldon.Tenants do
       )
 
     tenant
+  end
+
+  def get_tenant_simple!(id) do
+    Repo.one!(from t in Tenant, where: t.id == ^id)
   end
 
   @doc """
@@ -112,6 +116,8 @@ defmodule Waldon.Tenants do
   def change_tenant(%Tenant{} = tenant, attrs \\ %{}) do
     Tenant.changeset(tenant, attrs)
   end
+
+  def search_tenants_full_name(query) when query == "", do: []
 
   def search_tenants_full_name(query) do
     search = "%#{query}%"
