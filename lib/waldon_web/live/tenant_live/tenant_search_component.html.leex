@@ -1,11 +1,14 @@
-<form phx-change="search" phx-target="<%= @myself %>">
-  <input type="text" name="query" placeholder="Tenant search" autocomplete="off" class="block w-full mb-4 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"/>
+<form id="tenant-search-query" phx-change="search" phx-target="<%= @myself %>">
+  <input phx-update="ignore" id="query" type="text" name="query" placeholder="Tenant search" autocomplete="off" class="block w-full mb-4 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"/>
 </form>
-
-<%= for tenant <- @results do %>
-  <label><%= tenant.full_name %></label>
-  <form phx-submit="select" phx-target="<%= @myself %>">
-    <input type="hidden" name="tenant" value="<%= tenant.id %>"/>
+<div id="results">
+  <%= for tenant <- @results do %>
+    <div>
+      <label><%= tenant.full_name %></label>
+      <form id="select-tenant-<%= tenant.id %>" phx-submit="select" phx-target="<%= @myself %>">
+        <input type="hidden" name="tenant" value="<%= tenant.id %>"/>
 <button class="btn">Select</button>
 </form>
+</div>
 <% end %>
+</div>

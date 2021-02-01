@@ -13,8 +13,14 @@
   phx_submit: "save" %>
 <div>
   <div class="grid grid-cols-6 mt-5 gap-y-6 gap-x-4">
-    <div class="col-span-6">
-    </div>
+    <%= # inputs_for f, :tenants, fn ft -> %>
+    <%= # text_input ft, :id %>
+    <% # end %>
+    <%= for tenant <- @lease.tenants do %>
+      <p class="col-span-3 border border-gray-500">
+        <%= tenant.full_name %>
+      </p>
+    <% end %>
     <div class="col-span-6">
       <%= label f, "Start" %>
       <%= datetime_compact f, :start_time %>

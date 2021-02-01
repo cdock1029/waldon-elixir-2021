@@ -2,12 +2,10 @@ defmodule WaldonWeb.LeaseLive.FormComponent do
   use WaldonWeb, :live_component
 
   alias Waldon.Leases
+  alias Waldon.Leases.Lease
   alias Waldon.Tenants
-
-  @impl true
-  def mount(socket) do
-    {:ok, socket}
-  end
+  alias Waldon.Repo
+  alias Ecto.Changeset
 
   @impl true
   def update(%{lease: lease} = assigns, socket) do
@@ -16,7 +14,33 @@ defmodule WaldonWeb.LeaseLive.FormComponent do
     {:ok,
      socket
      |> assign(assigns)
-     |> assign(changeset: changeset, query: "", results: [])}
+     |> assign(changeset: changeset)}
+  end
+
+  def update(%{tenant_selected: tenant}, socket) do
+    {id, _} = Integer.parse(tenant)
+
+    lease = socket.assigns.lease
+    tenants = Map.get(lease, :tenants)
+
+    lease = %{
+      lease
+      | tenants:
+          [
+            Tenants.get_tenant_simple!(id) | tenants
+          ]
+          |> MapSet.new()
+          |> MapSet.to_list()
+    }
+
+    # changeset = Leases.change_lease(lease)
+
+    {
+      :ok,
+      socket
+      |> assign(:lease, lease)
+      # |> assign(:changeset, changeset)
+    }
   end
 
   @impl true
@@ -47,7 +71,16 @@ defmodule WaldonWeb.LeaseLive.FormComponent do
   end
 
   defp save_lease(socket, :new, lease_params) do
-    case Leases.create_lease(lease_params) do
+    IO.puts("lease_params")
+    IO.inspect(lease_params)
+
+    changeset =
+      %Lease{}
+      |> Leases.change_lease(lease_params)
+      |> Changeset.put_assoc(:tenants, socket.assigns.lease.tenants)
+
+    # case Leases.create_lease(lease_params) do
+    case Repo.insert(changeset) do
       {:ok, _lease} ->
         {:noreply,
          socket
@@ -55,6 +88,8 @@ defmodule WaldonWeb.LeaseLive.FormComponent do
          |> push_redirect(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
+        IO.puts("Error")
+        IO.inspect(changeset)
         {:noreply, assign(socket, changeset: changeset)}
     end
   end
