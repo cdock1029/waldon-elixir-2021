@@ -1,61 +1,36 @@
 defmodule WaldonWeb.TenantLive.TenantSearchComponent do
   use WaldonWeb, :live_component
 
-  import Ecto.Changeset
-
   alias Waldon.Tenants
 
-  @types %{query: :string}
-
   def mount(socket) do
-    changeset = change({%{}, @types})
-    socket = assign(socket, changeset: changeset, results: [])
-    {:ok, socket}
+    {:ok, assign(socket, query: "", results: [])}
   end
 
-  def handle_event("search", %{"search" => search}, socket) do
-    search
-    |> search_changeset()
-    |> case do
-      %{valid?: true, changes: %{query: query}} ->
-        {:noreply, assign(socket, :results, search(query))}
-
-      _ ->
-        {:noreply, socket}
-    end
+  def handle_event("search", %{"query" => query}, socket) do
+    {:noreply, assign(socket, results: search(query))}
   end
 
-  def handle_event("select", %{"selected" => selected}, socket) do
-    {:noreply, assign(socket, selected: selected)}
-  end
-
-  def handle_event("select", _params, socket) do
-    {:noreply, assign(socket, selected: [])}
-  end
-
-  def handle_event("submit", %{"selected" => selected}, socket) do
-    message = {:tenants_selected, selected}
+  def handle_event("select", %{"tenant" => tenant}, socket) do
+    message = {:tenant_selected, tenant}
     IO.puts("sending message:")
     IO.inspect(message)
-    Phoenix.PubSub.broadcast!(Waldon.PubSub, "tenants:search_selected", message)
+    Phoenix.PubSub.broadcast!(Waldon.PubSub, "tenant:search", message)
 
+    {:noreply, socket}
+  end
+
+  def handle_event("select", params, socket) do
+    IO.puts("select no results")
+    IO.inspect(params)
     {:noreply, socket}
   end
 
   def handle_event("submit", params, socket) do
+    IO.puts("submit")
     IO.inspect(params)
 
     {:noreply, socket}
-  end
-
-  defp search_changeset(attrs \\ %{}) do
-    cast(
-      {%{}, @types},
-      attrs,
-      [:query]
-    )
-    |> update_change(:query, &String.trim/1)
-    |> validate_required([:query])
   end
 
   defp search(query) do

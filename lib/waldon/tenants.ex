@@ -113,6 +113,8 @@ defmodule Waldon.Tenants do
     Tenant.changeset(tenant, attrs)
   end
 
+  def search_tenants_full_name(query) when query == "", do: []
+
   def search_tenants_full_name(query) do
     search = "%#{query}%"
 

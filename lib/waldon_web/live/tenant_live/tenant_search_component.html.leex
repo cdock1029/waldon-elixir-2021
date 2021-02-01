@@ -1,8 +1,11 @@
-<%= f = form_for @changeset, "#", phx_change: "search", phx_target: @myself, as: :search %>
-<%= text_input f, :query, placeholder: "Tenant search", autocomplete: "off", class: "block w-full mb-4 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+<form phx-change="search" phx-target="<%= @myself %>">
+  <input type="text" name="query" placeholder="Tenant search" autocomplete="off" class="block w-full mb-4 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"/>
 </form>
-<ul>
-  <%= for result <- @results do %>
-    <li><%= result.full_name %></li>
-  <% end %>
-</ul>
+
+<%= for tenant <- @results do %>
+  <label><%= tenant.full_name %></label>
+  <form phx-submit="select" phx-target="<%= @myself %>">
+    <input type="hidden" name="tenant" value="<%= tenant.id %>"/>
+<button class="btn">Select</button>
+</form>
+<% end %>

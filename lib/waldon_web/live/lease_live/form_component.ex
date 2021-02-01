@@ -5,6 +5,11 @@ defmodule WaldonWeb.LeaseLive.FormComponent do
   alias Waldon.Tenants
 
   @impl true
+  def mount(socket) do
+    {:ok, socket}
+  end
+
+  @impl true
   def update(%{lease: lease} = assigns, socket) do
     changeset = Leases.change_lease(lease)
 
@@ -26,12 +31,6 @@ defmodule WaldonWeb.LeaseLive.FormComponent do
 
   def handle_event("save", %{"lease" => lease_params}, socket) do
     save_lease(socket, socket.assigns.action, lease_params)
-  end
-
-  def handle_info({:tenants_selected, selected}, socket) do
-    IO.puts("tenants selected:\n")
-    IO.inspect(selected)
-    {:noreply, socket}
   end
 
   defp save_lease(socket, :edit, lease_params) do

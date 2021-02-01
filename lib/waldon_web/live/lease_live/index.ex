@@ -6,6 +6,7 @@ defmodule WaldonWeb.LeaseLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
+    Phoenix.PubSub.subscribe(Waldon.PubSub, "tenant:search")
     {:ok, assign(socket, :leases, list_leases())}
   end
 
@@ -38,6 +39,13 @@ defmodule WaldonWeb.LeaseLive.Index do
     {:ok, _} = Leases.delete_lease(lease)
 
     {:noreply, assign(socket, :leases, list_leases())}
+  end
+
+  @impl true
+  def handle_info({:tenant_selected, tenant}, socket) do
+    IO.puts("tenant selected, handled in LeaseLive.Index")
+    IO.inspect(tenant)
+    {:noreply, socket}
   end
 
   defp list_leases do
