@@ -6,7 +6,6 @@ defmodule WaldonWeb.LeaseLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    Phoenix.PubSub.subscribe(Waldon.PubSub, "tenant:search")
     {:ok, assign(socket, leases: list_leases(), selected_tenants: [])}
   end
 
